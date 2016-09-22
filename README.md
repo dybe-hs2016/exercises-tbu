@@ -1,2 +1,2 @@
 # exercises-tbu
-In disem Repo kann tbu seine Übungen aus dem Kursteil mit Hauser verwalten.
+Dieses Repository enthält alle Übungen aus dem DYBE Untericht mit Hauser.
