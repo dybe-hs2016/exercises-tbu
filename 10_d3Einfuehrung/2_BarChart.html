@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- wiht d3 library -->
 <html>
 <head>
     <meta charset="utf-8">
@@ -18,26 +19,43 @@
 
 <body>
    <div class="chart"></div>
+   <!-- d3 JS Library: Tool zur Visualisierung. Kann beliebige Daten nach Fromalisierten Anweisungen aufbauen. -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
 <script type="text/javascript">
-//the data set
+
+// Kann von Server abgeholt werden.
+//HA: the data set
 var data = [1, 2, 3, 4, 5, 6];
 
-//d3 basic select (followed by a chain of calls below)
+// 
+//HA: d3 basic select (followed by a chain of calls below)
 d3.select(".chart")
-//create empty array of selection
+
+// Leeres Array erzeigen, das in d3.select steht
+//HA: create empty array of selection
 .selectAll("somethingunfindable")
+
+// VAR data 
 //connect to data
 .data(data)
-//fill in data content (in an attribute called '_data_')
+
+// Daten in VAR einfüllen
+//HA: fill in data content (in an attribute called '_data_')
 .enter()
-//append a div element for each data set
+
+// für jeden Datensatz ein neues DIV bauen. Ohne 'for' Schleife, weil d3 eine Funktion immer auf alle Datenobjekte (VAR data) anwendet.
+//HA: append a div element for each data set
 .append("div")
-//set the style element 'width' of all divs individually by calling a function instead of giving a fixed value
+
+// Style Sheet wird mit der FKT 'DatensatzWidth' 
+//HA: set the style element 'width' of all divs individually by calling a function instead of giving a fixed value
 .style("width", function (DatensatzWidth) {
+  // Breite des DIV auf Nennwert des Dateneintrags * 10 pixelbreite setzen.
 	return DatensatzWidth * 10 + "px";
 })
-//set the data set as a text of the divs individually
+
+// Datenwert aus Array als 'DatensatzText' ausgeben??
+//HA: set the data set as a text of the divs individually
 .text(function (DatensatzText) {
 	return DatensatzText;
 });
