@@ -1,14 +1,17 @@
 // stores the reference to the XMLHttpRequest object -> Objekt wird später HTTP Anfrage an Server schicken.
 // HTTP-Anfrage: enthält alles, was Browser an Server stellen kann. URL + Zusatzinformationen: z.B. POST oder GET (GET ist in URL sichtbar, POST ist in HTTP-Anfrage verpackt). Mit php kann man sich die POST Variable wieder anzeigen lassen.
 
-// hier wird die FKT createXmlHttpRequestObject aufgerufen, um die Variable var xmlHttp zu erzeugen.
+// hier wird die FKT 'createXmlHttpRequestObject' aufgerufen/ausgeführt, um die VAR 'xmlHttp' zu erzeugen.
 var xmlHttp = createXmlHttpRequestObject();
 
-// retrieves the XMLHttpRequest object -> hier wird die Funktio definiert, mit der var xmlHttp erstellt wird.
+// retrieves the XMLHttpRequest object
+// hier wird die FKT 'createXmlHttpRequestObject' definiert.
+//Die FKT 'createXmlHttpRequestObject' sollte immer als STANDARD eingebaut werden! Mit der FKT wird ein HTTP Objekt genereiert, mit dem man, egal ob Internet Explorer oder Firefox, umgehen kann.
 function createXmlHttpRequestObject()
 {
     // will store the reference to the XMLHttpRequest object
     var xmlHttpNew;
+
     // if running Internet Explorer
     if (window.ActiveXObject)
     {
@@ -27,6 +30,7 @@ function createXmlHttpRequestObject()
     {
         try
         {
+            /*gibt */
             xmlHttpNew = new XMLHttpRequest();
         }
         catch (e)
@@ -48,13 +52,17 @@ function process(inName)
 {
     // proceed only if the xmlHttp object isn't busy
     /*send http request: request now runns at server, js/browser is not bussy until data is returned by Server*/
+    // Objekt HTTP Objekt 'xmlHttp' hat bestimmt states. Wenn 'xmlHttp' nicht beschäftigt ist, wird die GET Abfrage an den Server geschickt.
+    // readyState : ist HTTP OBJ beschäftigt?
     if (xmlHttp.readyState == 4 || xmlHttp.readyState == 0)
     {
         // execute the getaddress.php page from the server
-        // baut SQL Abfraga an Server zusammen
+        // konstruiert und eröffnet SQL Abfraga an Server
+        // in Klammern ist URL, die abgeschickt wird. Hier definiert er, welchen Namen er mmöchte.
         xmlHttp.open("GET", "getNumber.php?name=" + inName, true);
         // define the method to handle server responses
         /*wenn Antwort kommt, die fkt handleServerRespnse aufrufen*/
+        // wenn sich am Zustand des 'xmlHttp' etwas ändert, wird das JS zu 'handleServerResponse' zurückgerufen.
         xmlHttp.onreadystatechange = handleServerResponse;
         // make the server request
         xmlHttp.send(null);
@@ -65,37 +73,57 @@ function process(inName)
         setTimeout('process()', 1000);
 }
 // executed automatically when a message is received from the server
-// Wenn Anfrage aus Process zurückgegben wurde.
+// Wenn sich state vonn 'xmlHttp' geändert hat, wierd diese FKT ausgerührt. An diesem Punkt ist aber nicht klar, ob die Anfrage aus 'process' bereits korrekt an Client zurück gesendet wurde. Das ist nur der Fall, wenn 'readyState' == 4.
+
 function handleServerResponse()
 {
-    // move forward only if the transaction has completed
-    // HTTP Statusmeldungen 4 / 20 / 404 / ...
+    //HA: move forward only if the transaction has completed
+    // HTTP readyState meldungen 4 / 20 / 404 / ... des HTTP OBJ
     if (xmlHttp.readyState == 4)
     {
-        // status of 200 indicates the transaction completed successfully
+        //HA: status of 200 indicates the transaction completed successfully
+        // status : hat HTTP-Transphär geklapt? 
         if (xmlHttp.status == 200)
         {
-            // extract the XML retrieved from the server
+            //HA: extract the XML retrieved from the server
             xmlResponse = xmlHttp.responseText;
-            //print response
-            document.getElementById("PhoneField").innerHTML = xmlHttp.responseText;
+
+            //HA: print response
+
+            // document.getElemetByID():HTML Element mit di="PhoneField" aus DOM anfordert. Es wird als komplettes DOM Element zurückgegeben.
+            // '.innerHTML' auf das innerHTML des DOM-Elements zugreiffen.
+            // '= responseText' manipuliert den Text innerhalb des HTML Tags, damit responseText hineingeschrieben wird.
+            // xmlHttp.responseText; enthält den Wert, der mit der FKT 'process' aus dem HTTP Request 'createXmlHttpRequestObject' geholt wurde.
+            // documetn => OBJ DOM
+            // .xx => Eigenschaft / Fähigkeit
+
+            // chaining:
+            // document.getElementById("PhoneField").innerHTML = responseText;
+
+            // OR
+
+            phoneField = document.getElementById("PhoneField");
+            phoneField.innerHTML = responseText;
         }
-        // a HTTP status different than 200 signals an error
+        //HA: a HTTP status different than 200 signals an error
         else
         {
             alert("There was a problem accessing the server: " +
                 xmlHttp.statusText);
+            // z.B. Error 404
         }
     }
 }
 
 function enterRow()
 {
-    //Display an intermediate activity information
+    //HA: Display an intermediate activity information
     // 
     document.getElementById("PhoneField").innerHTML = "Searching number of " + name + " ...";
     this.style.backgroundColor = "#a0a0a0";
+    // VAR 'name' erhält 'innerHTML' (alles was innerhalb des html tags steht. Hier den Namen innerhalb <td>.)
     name = this.innerHTML;
+    // ruft mit VAR name die FKT 'process' auf.
     process(name);
 }
 
@@ -126,5 +154,5 @@ function initPage()
     //alert('loaded');
 }
 
-// wenn gesamtes Fenster geladen ist, solll die FKT initPage aufgerufen werden.
+// FKT initPage wird erst aufgerufen, wenn gesamtes Site komplett aufgebaut ist. JS läuft immer: asynchronu zu kommunikatoin zwischen Client und Server. JS ist in index.html ganz am anfang eingbunden und würde dort geladen werde. Dadurch kann es sein, dass noch nicht alle Elemente geladun wurden: initPage holt sich alle <td> elemente, die zu diesem Zeitpunkt auf index.php wahrscheinlich noch gar nicht geladne wurden.
 window.onload = initPage;

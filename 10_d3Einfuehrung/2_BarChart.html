@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>d3js | ein denkbar einfaches Beispiel, mit d3</title>
+<style>
+.chart div {
+  font: 10px sans-serif;
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
+}
+</style>
+</head>
+
+<body>
+   <div class="chart"></div>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+//the data set
+var data = [1, 2, 3, 4, 5, 6];
+
+//d3 basic select (followed by a chain of calls below)
+d3.select(".chart")
+//create empty array of selection
+.selectAll("somethingunfindable")
+//connect to data
+.data(data)
+//fill in data content (in an attribute called '_data_')
+.enter()
+//append a div element for each data set
+.append("div")
+//set the style element 'width' of all divs individually by calling a function instead of giving a fixed value
+.style("width", function (DatensatzWidth) {
+	return DatensatzWidth * 10 + "px";
+})
+//set the data set as a text of the divs individually
+.text(function (DatensatzText) {
+	return DatensatzText;
+});
+</script>
+</body>
+</html>
