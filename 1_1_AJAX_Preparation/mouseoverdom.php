@@ -5,7 +5,7 @@
 <script type="text/javascript">
 <!--
 function enterbgcolor()
-{
+    {
 //	this.innerHTML = 'Called';
 	this.style.backgroundColor = "#808080";
 };
