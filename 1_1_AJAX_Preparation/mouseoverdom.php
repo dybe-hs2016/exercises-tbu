@@ -1,5 +1,5 @@
 <html>
-<head>
+    <head>
 <title>Test Something</title>
 <link rel="stylesheet" type="text/css" href="thestyle.css">
 <script type="text/javascript">
