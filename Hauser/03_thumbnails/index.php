@@ -1,0 +1,9 @@
+<a href="phpInfo.php">php Info</a><br>
+<a href="getFileContent.php">get file content</a><br>
+<a href="scanDirectory.php">get file content</a><br>
+<a href="imagemagick.php">php image resize</a><br>
+<a href="testForDir.php">php test directory existance</a><br>
+<a href="index_txt.php">L&ouml;sung mit Textdatei als Quelle</a><br>
+<a href="index_json.php">L&ouml;sung mit JSON-Datei als Quelle</a><br>
+<a href="index_life.php">L&ouml;sung mit Thumbnails direkt aus Verzeichnis</a><br>
+<a href="index_create_thumbs.php">L&ouml;sung mit tempor&auml;ren Thumbnails</a><br>
